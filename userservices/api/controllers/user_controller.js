@@ -45,6 +45,25 @@ exports.userFindByID = async(req,res) =>{
     }   
 }
 
+exports.userFindByEmail = async(req,res) =>{
+    User.findOne({u_email:req.body.u_email})
+        .then(user=>{
+            if(!user){
+                res.status(404).json({
+                    error : "invalid email or password"
+                })
+            }
+            res.status(200).json({
+                user
+            })
+        })
+        .catch(err=>{
+            res.status(500).json({
+                error : err
+            })
+        })
+}
+
 exports.userSave = async(req,res) =>{
     try{
         const body = req.body;

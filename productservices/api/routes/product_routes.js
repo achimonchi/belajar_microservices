@@ -5,6 +5,7 @@ const router = express.Router();
 const {
     productFindAll,
     productFindByID,
+    productFindByUser,
     productSave,
     productPatch,
     productDelete,
@@ -12,6 +13,7 @@ const {
 
 router.get('/', productFindAll);
 router.get('/:id', productFindByID);
+router.get('/user/:user', productFindByUser);
 router.post('/', productSave);
 router.patch('/:id', productPatch);
 router.delete('/:id', productDelete);

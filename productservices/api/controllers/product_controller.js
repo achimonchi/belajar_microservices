@@ -38,6 +38,21 @@ exports.productFindByID = (req,res) =>{
     }
 }
 
+exports.productFindByUser = (req,res) =>{
+    try{
+        const user = req.params.user;
+        Product.find({user:user})
+            .then(data=>{
+                res.status(200).json(data)
+            })
+            .catch(err=>{
+                res.status(500).json(err)        
+            })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
+
 exports.productSave = async (req,res) =>{
     try{
         const body = req.body;

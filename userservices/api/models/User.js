@@ -20,6 +20,10 @@ const userSchema = mongoose.Schema({
         type : String,
         required : true,
     },
+    u_status : {
+        type : Number,
+        default : 1
+    },
     created_at : {
         type : Date,
         default : asiaTime()
@@ -28,10 +32,6 @@ const userSchema = mongoose.Schema({
         type : Date,
         default : asiaTime()
     },
-    u_status : {
-        type : Number,
-        default : 1
-    }
 });
 
 module.exports = mongoose.model('Users', userSchema);

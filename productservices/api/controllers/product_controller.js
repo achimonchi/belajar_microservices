@@ -63,9 +63,15 @@ exports.productSave = async (req,res) =>{
     }
 }
 
-exports.productPatch = (req,res) =>{
+exports.productPatch = async (req,res) =>{
     try{
-        
+        const id = req.params.id;
+        const body = req.body;
+        const string = JSON.stringify(body).split("}")[0]+`,\"updated_at\":\"${asiaTime()}\"\}`;
+        await Product.findOneAndUpdate({_id:id}, JSON.parse(string));
+        res.status(200).json({
+            message : "Updated success !"
+        })
     } catch (err) {
         res.status(500).json({
             error : err
@@ -73,9 +79,13 @@ exports.productPatch = (req,res) =>{
     }
 }
 
-exports.productDelete = (req,res) =>{
+exports.productDelete = async (req,res) =>{
     try{
-
+        const id = req.params.id;
+        await Product.findOneAndRemove({_id:id});
+        res.status(200).json({
+            message : "Delete success !"
+        })
     } catch (err) {
         res.status(500).json({
             error : err

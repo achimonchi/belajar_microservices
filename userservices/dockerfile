@@ -1,0 +1,9 @@
+FROM node
+WORKDIR /app/userservices
+
+COPY package.json ./
+RUN npm install
+
+COPY . ./
+
+CMD ["node","server.js"]

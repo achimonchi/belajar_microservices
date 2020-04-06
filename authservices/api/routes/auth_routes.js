@@ -6,7 +6,6 @@ const {
     signUp
 } = require('./../controllers/auth_controller')
 
-router.get('/', signUp)
 router.post('/signup', signUp);
 router.post('/signin', signIn);
 

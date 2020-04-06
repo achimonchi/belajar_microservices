@@ -4,6 +4,7 @@ const
     morgan = require('morgan'),
     env = require('dotenv'),
     mongoose = require('mongoose'),
+    axios = require('axios'),
     bodyParser = require('body-parser');
 
 
@@ -18,14 +19,18 @@ app.use(morgan('dev'));
 env.config();
 
 // define DB
-try{
-    const uri = `mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/productservices`
-    mongoose.connect(uri, {useNewUrlParser : true, useUnifiedTopology:true});
-    console.log('Connection db productservices success')
-}
-catch (err) {
-    console.log(err)
-}
+
+const uri = `mongodb://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/productservices`
+mongoose.connect(uri, {useNewUrlParser : true, useUnifiedTopology:true})
+    .then(()=>{
+        console.log('Connection db productservices success')
+    })
+    .catch(err=>{
+        const uri = `https://api.telegram.org/bot1189685923:AAFhUdJKLsPTAQsX8iSWZ5yZA6LfP4Mpnuk/sendMessage?chat_id=401330815&text=Koneksi DB di Product Services Gagal nih...`;
+        axios.get(`${uri}`)
+        console.log({err})        
+    })
+
 
 app.use('/products', productRoutes);
 

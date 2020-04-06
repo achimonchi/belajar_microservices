@@ -27,7 +27,7 @@ try{
     console.log('Connection db userservices success')
 }
 catch (err) {
-    console.log(err)
+    console.log({err, port:process.env.MONGODB_PORT})
 }
 
 // use routes

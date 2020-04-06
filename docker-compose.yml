@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+    mongoserver1:
+        container_name: mongoserver1
+        image: mongo
+        ports: 
+            - 27017:27017
+        networks: 
+            - usernetwork   
+            - productnetwork 
+
+    userservices:
+        container_name: userservices
+        image: achimonchi/userservices:1.0
+        ports: 
+            - 7000:7000
+        depends_on: 
+            - mongoserver1
+        environment: 
+            - MONGODB_HOST=mongoserver1
+            - MONGODB_PORT=27017
+            - PORT=7000
+        networks: 
+            - usernetwork
+
+    productservices:
+        container_name: productservices
+        image: achimonchi/productservices:1.0
+        ports: 
+            - 8000:4000
+        depends_on: 
+            - mongoserver1
+        environment: 
+            - MONGODB_HOST=mongoserver1
+            - MONGODB_PORT=27017
+            - PORT=4000
+        networks: 
+            - productnetwork
+    
+    mynginxserver:
+        container_name: mynginxserver
+        image: mynginx:1.0
+        ports :
+            - 80:80
+        links: 
+            - productservices
+            - userservices
+        networks: 
+            - usernetwork
+            - productnetwork
+
+
+networks: 
+    usernetwork:
+        name: usernetwork
+    productnetwork:
+        name: productnetwork
